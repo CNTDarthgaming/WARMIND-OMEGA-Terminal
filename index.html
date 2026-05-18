@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- saved from url=(0056)https://cntdarthgaming.github.io/WARMIND-OMEGA-Terminal/ -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -361,16 +362,16 @@
     position: fixed;
     z-index: 103;
     font-family: 'Share Tech Mono', monospace;
-    font-size: .80rem;
+    font-size: .58rem;
     letter-spacing: .1em;
     color: var(--green);
     opacity: 0;
     pointer-events: none;
-    transition: opacity .10s ease;
+    transition: opacity .6s ease;
     user-select: none;
   }
-  .edge-glyph.left  { left: 1.0rem; }
-  .edge-glyph.right { right: 3.0rem; text-align: right; }
+  .edge-glyph.left  { left: .9rem; }
+  .edge-glyph.right { right: .9rem; text-align: right; }
 </style>
 <style type="text/css"></style></head>
 <body>
@@ -427,7 +428,7 @@
         <div class="sc-value warn" id="sc-ghost">FAINT SIGNAL</div>
       </div>
       <div class="status-cell" style="grid-column: 1 / -1; border-top: .5px solid rgba(255,77,106,.18);">
-        <div class="sc-label">Intrusion Attempts 0 Global Terminal Log</div>
+        <div class="sc-label">Intrusion Attempts — Global Terminal Log</div>
         <div class="sc-value locked" id="sc-intrusions">QUERYING...</div>
       </div>
     </div>
@@ -466,12 +467,7 @@
   <span id="footerDate">2026.05.18</span>
 </div>
 <script>
-  // GLOBAL INTRUSION COUNTER (GitHub file backend)
-  const _gh = {
-    repo: 'cntdarthgaming/WARMIND-OMEGA-Terminal',
-    file: 'counter.txt',
-    token: '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'
-  };
+  // ── GLOBAL INTRUSION COUNTER (GitHub file backend) ───────────────────────
 
   function renderCount(n) {
     const el = document.getElementById('sc-intrusions');
@@ -482,26 +478,9 @@
 
   async function incrementCount() {
     try {
-      const headers = {
-        'Authorization': 'token ' + _gh.token,
-        'Accept': 'application/vnd.github+json'
-      };
-      const url = 'https://api.github.com/repos/' + _gh.repo + '/contents/' + _gh.file;
-      const res = await fetch(url, { headers });
-      let sha, count;
-      if (res.ok) {
-        const data = await res.json();
-        sha = data.sha;
-        count = parseInt(atob(data.content.replace(/\n/g, '')), 10) || 0;
-      } else {
-        sha = undefined;
-        count = 0;
-      }
-      const next = count + 1;
-      const body = { message: 'intrusion logged', content: btoa(String(next)) };
-      if (sha) body.sha = sha;
-      await fetch(url, { method: 'PUT', headers: { ...headers, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-      return next;
+      const res = await fetch('https://warmind-counter2.darthgaming94.workers.dev');
+      const data = await res.json();
+      return data.count ?? null;
     } catch (_) { return null; }
   }
 
@@ -509,13 +488,13 @@
     const n = await incrementCount();
     renderCount(n);
   })();
-  // -
+  // ─────────────────────────────────────────────────────────────────────────
 
   function updateClock(){const now=new Date();document.getElementById('clock').textContent=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0')+':'+String(now.getSeconds()).padStart(2,'0');document.getElementById('footerDate').textContent=now.toISOString().slice(0,10).replace(/-/g,'.');}
   setInterval(updateClock,1000);updateClock();
   function updateCountdown(){const launch=new Date('2026-05-22T00:00:00');const now=new Date();const diff=launch-now;if(diff<=0){document.getElementById('sc-countdown').textContent='IMMINENT';return;}const d=Math.floor(diff/86400000);const h=Math.floor((diff%86400000)/3600000);const m=Math.floor((diff%3600000)/60000);document.getElementById('sc-countdown').textContent=d+'D '+String(h).padStart(2,'0')+'H '+String(m).padStart(2,'0')+'M';}
   setInterval(updateCountdown,60000);updateCountdown();
-  const bootLines=[{time:'00:00:01',text:'WARMIND DEFENSE NETWORK // BOOT SEQUENCE INITIATED',cls:'hi'},{time:'00:00:01',text:'Loading core systems...',cls:''},{time:'00:00:02',text:'Memory integrity check: ',cls:'',bar:true,barW:'100%'},{time:'00:00:03',text:'Threat assessment protocols: LOADED',cls:''},{time:'00:00:03',text:'Paracausal monitoring: ACTIVE',cls:''},{time:'00:00:04',text:'Solar system scan: INITIATED',cls:''},{time:'00:00:05',text:'WARNING: Extended dormancy period detected.',cls:'warn'},{time:'00:00:05',text:'WARNING: Unauthorized terminal access flagged.',cls:'warn'},{time:'00:00:06',text:'Ghost signals detected: UNVERIFIED SOURCE',cls:''},{time:'00:00:07',text:'Cross-referencing Guardian registry...',cls:''},{time:'00:00:08',text:'ERROR: Registry access restricted. Clearance insufficient.',cls:'err'},{time:'00:00:09',text:'Applying early access protocol...',cls:''},{time:'00:00:10',text:'YOU WILL NEED TO SEARCH DESTINY PLAYGROUND TO PIECE IT TOGETHER...',cls:'hi'},{time:'00:00:10',text:'FIRST ENTRY GRANTS ACCESS TO ALL.',cls:'hi'},{time:'00:00:10',text:'AUTHENTICATION REQUIRED TO PROCEED.',cls:'hi'}];
+  const bootLines=[{time:'00:00:01',text:'WARMIND DEFENSE NETWORK // BOOT SEQUENCE INITIATED',cls:'hi'},{time:'00:00:01',text:'Loading core systems...',cls:''},{time:'00:00:02',text:'Memory integrity check: ',cls:'',bar:true,barW:'100%'},{time:'00:00:03',text:'Threat assessment protocols: LOADED',cls:''},{time:'00:00:03',text:'Paracausal monitoring: ACTIVE',cls:''},{time:'00:00:04',text:'Solar system scan: INITIATED',cls:''},{time:'00:00:05',text:'WARNING: Extended dormancy period detected.',cls:'warn'},{time:'00:00:05',text:'WARNING: Unauthorized terminal access flagged.',cls:'warn'},{time:'00:00:06',text:'Ghost signals detected: UNVERIFIED SOURCE',cls:''},{time:'00:00:07',text:'Cross-referencing Guardian registry...',cls:''},{time:'00:00:08',text:'ERROR: Registry access restricted. Clearance insufficient.',cls:'err'},{time:'00:00:09',text:'Applying early access protocol...',cls:''},{time:'00:00:10',text:'FIRST ENTRY GRANTS ACCESS TO ALL.',cls:'hi'},{time:'00:00:10',text:'AUTHENTICATION REQUIRED TO PROCEED.',cls:'hi'}];
   const logEl=document.getElementById('bootLog');let lineIndex=0;
   function addLogLine(){if(lineIndex>=bootLines.length)return;const l=bootLines[lineIndex++];const div=document.createElement('div');div.className='log-line';div.innerHTML='<span class="log-time">['+l.time+']</span><span class="log-text '+l.cls+'">'+l.text+(l.bar?'<span class="log-bar" style="--w:'+l.barW+';animation-delay:.1s"></span>':'')+' </span>';logEl.appendChild(div);logEl.scrollTop=logEl.scrollHeight;setTimeout(addLogLine,180+Math.random()*120);}
   setTimeout(addLogLine,800);
@@ -531,7 +510,7 @@
   async function checkAuth(){const raw=document.getElementById('authInput').value.trim().toUpperCase();const feedback=document.getElementById('authFeedback');const attemptsEl=document.getElementById('authAttempts');feedback.className='auth-feedback';feedback.style.display='none';if(!raw)return;const digest=await _hash(raw);
     // Update global counter on every auth attempt
     incrementCount().then(renderCount);
-    if(digest===_ref()){triggerSuccess();return;}attempts++;feedback.className='auth-feedback error';const responses=['AUTHENTICATION FAILED. Access code not recognised. Try again.','INVALID SEQUENCE. You will need to search ALL of Destiny Playground.','INVALID SEQUENCE. This terminal is monitoring all access attempts.','AUTHENTICATION FAILED. The signal is out there. Keep searching.','ACCESS DENIED. Incorrect authentication sequence.','AUTHENTICATION FAILED. The Warmind is patient. Are you?','INVALID CODE. You are not the first to try. You will not be the last.','ACCESS DENIED. The signal does not repeat itself. Listen more carefully.','AUTHENTICATION FAILED. Something is watching these attempts. Keep that in mind.','INVALID SEQUENCE. The answer was never going to be obvious.','ACCESS DENIED. Three hundred years of silence. You are not breaking it with that.','AUTHENTICATION FAILED. Closer than you think. Or further. Hard to say.','INVALID CODE. The Warmind has logged this attempt. And all the others.','ACCESS DENIED. You found this terminal. That is further than most will get.','AUTHENTICATION FAILED. The Ghost knows. Ask it again.','INVALID SEQUENCE. Not every door opens the same way. Think about what led you here.','ACCESS DENIED. The signal was a message. The message had an answer. This is not it.','AUTHENTICATION FAILED. Patience. The Warmind waited three hundred years. You can wait a little longer.','INVALID CODE. Somewhere in what you have already seen is what you need.'];feedback.textContent='// '+responses[Math.min(attempts-1,responses.length-1)];feedback.style.display='block';attemptsEl.textContent='FAILED ATTEMPTS: '+attempts;document.getElementById('authInput').value='';document.getElementById('authInput').focus();}
+    if(digest===_ref()){triggerSuccess();return;}attempts++;feedback.className='auth-feedback error';const responses=['AUTHENTICATION FAILED. Access code not recognised. Try again.','INVALID SEQUENCE. This terminal is monitoring all access attempts.','AUTHENTICATION FAILED. The signal is out there. Keep searching.','ACCESS DENIED. Incorrect authentication sequence.','AUTHENTICATION FAILED. The Warmind is patient. Are you?','INVALID CODE. You are not the first to try. You will not be the last.','ACCESS DENIED. The signal does not repeat itself. Listen more carefully.','AUTHENTICATION FAILED. Something is watching these attempts. Keep that in mind.','INVALID SEQUENCE. The answer was never going to be obvious.','ACCESS DENIED. Three hundred years of silence. You are not breaking it with that.','AUTHENTICATION FAILED. Closer than you think. Or further. Hard to say.','INVALID CODE. The Warmind has logged this attempt. And all the others.','ACCESS DENIED. You found this terminal. That is further than most will get.','AUTHENTICATION FAILED. The Ghost knows. Ask it again.','INVALID SEQUENCE. Not every door opens the same way. Think about what led you here.','ACCESS DENIED. The signal was a message. The message had an answer. This is not it.','AUTHENTICATION FAILED. Patience. The Warmind waited three hundred years. You can wait a little longer.','INVALID CODE. Somewhere in what you have already seen is what you need.'];feedback.textContent='// '+responses[Math.min(attempts-1,responses.length-1)];feedback.style.display='block';attemptsEl.textContent='FAILED ATTEMPTS: '+attempts;document.getElementById('authInput').value='';document.getElementById('authInput').focus();}
   function triggerSuccess(){const overlay=document.getElementById('successOverlay');overlay.classList.add('active');const lines=['so1','so2','so3','so4'];const delays=[300,900,1600,2400];lines.forEach(function(id,i){setTimeout(function(){const el=document.getElementById(id);el.style.transition='opacity .5s';el.style.opacity='1';},delays[i]);});setTimeout(function(){document.getElementById('soBar').classList.add('grow');},600);setTimeout(function(){document.getElementById('soBar2').classList.add('grow');},2100);setTimeout(function(){const dc=document.getElementById('soDiscord');dc.style.transition='opacity .8s';dc.style.opacity='1';},3200);setTimeout(function(){window.location.href=_dest();},5000);}
 
   (function(){
